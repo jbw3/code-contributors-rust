@@ -4,7 +4,7 @@ use std::io::{self, BufRead};
 
 fn main()
 {
-    let re = Regex::new(r"\((\S*(?: +\S+)*) +\d{4}").unwrap();
+    let re = Regex::new(r"\((\S*(?: +\S+)*) +\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}").unwrap();
     let mut line_counts: HashMap<String, u32> = HashMap::new();
 
     // loop through stdin lines
