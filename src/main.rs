@@ -2,6 +2,17 @@ use regex::Regex;
 use std::collections::HashMap;
 use std::io::{self, BufRead};
 
+fn print_results(line_counts: &HashMap<String, u32>)
+{
+    let mut sorted_counts: Vec<(&String, &u32)> = line_counts.iter().collect();
+    sorted_counts.sort_by(|(_, count1), (_, count2)| count1.cmp(count2).reverse());
+
+    for (key, val) in sorted_counts.iter()
+    {
+        println!("{}: {}", key, val);
+    }
+}
+
 fn main()
 {
     let re = Regex::new(r"\((\S*(?: +\S+)*) +\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}").unwrap();
@@ -27,8 +38,5 @@ fn main()
         }
     }
 
-    for (key, val) in line_counts.iter()
-    {
-        println!("{}: {}", key, val);
-    }
+    print_results(&line_counts);
 }
