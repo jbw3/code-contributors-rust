@@ -15,7 +15,7 @@ fn print_results(line_counts: &HashMap<String, u32>)
     for (name, count) in sorted_counts.iter()
     {
         max_name_width = max(max_name_width, name.len());
-        total_count += *count;
+        total_count += **count;
     }
 
     let max_count_width = format!("{}", total_count).len();
@@ -23,10 +23,11 @@ fn print_results(line_counts: &HashMap<String, u32>)
     // print counts
     for (name, count) in sorted_counts.iter()
     {
-        println!("{:name_width$} {:count_width$}", name, count, name_width=max_name_width, count_width=max_count_width);
+        let percentage = (**count as f64) * 100f64 / (total_count as f64);
+        println!("{:name_width$} {:count_width$} {:5.1}%", name, count, percentage, name_width=max_name_width, count_width=max_count_width);
     }
 
-    println!("{:name_width$} {:count_width$}", "Total", total_count, name_width=max_name_width, count_width=max_count_width);
+    println!("{:name_width$} {:count_width$} 100.0%", "Total", total_count, name_width=max_name_width, count_width=max_count_width);
 }
 
 fn main()
