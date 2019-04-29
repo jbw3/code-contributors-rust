@@ -4,13 +4,24 @@ use std::io::{self, BufRead};
 
 fn print_results(line_counts: &HashMap<String, u32>)
 {
+    // sort counts
     let mut sorted_counts: Vec<(&String, &u32)> = line_counts.iter().collect();
     sorted_counts.sort_by(|(_, count1), (_, count2)| count1.cmp(count2).reverse());
 
-    for (key, val) in sorted_counts.iter()
+    // calculate total
+    let mut total_count = 0u32;
+    for (_, count) in sorted_counts.iter()
     {
-        println!("{}: {}", key, val);
+        total_count += *count;
     }
+
+    // print counts
+    for (name, count) in sorted_counts.iter()
+    {
+        println!("{}: {}", name, count);
+    }
+
+    println!("Total: {}", total_count);
 }
 
 fn main()
