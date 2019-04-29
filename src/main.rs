@@ -1,4 +1,5 @@
 use regex::Regex;
+use std::cmp::max;
 use std::collections::HashMap;
 use std::io::{self, BufRead};
 
@@ -8,20 +9,24 @@ fn print_results(line_counts: &HashMap<String, u32>)
     let mut sorted_counts: Vec<(&String, &u32)> = line_counts.iter().collect();
     sorted_counts.sort_by(|(_, count1), (_, count2)| count1.cmp(count2).reverse());
 
-    // calculate total
+    // calculate text formatting info and total count
     let mut total_count = 0u32;
-    for (_, count) in sorted_counts.iter()
+    let mut max_name_width = "Total".len();
+    for (name, count) in sorted_counts.iter()
     {
+        max_name_width = max(max_name_width, name.len());
         total_count += *count;
     }
+
+    let max_count_width = format!("{}", total_count).len();
 
     // print counts
     for (name, count) in sorted_counts.iter()
     {
-        println!("{}: {}", name, count);
+        println!("{:name_width$} {:count_width$}", name, count, name_width=max_name_width, count_width=max_count_width);
     }
 
-    println!("Total: {}", total_count);
+    println!("{:name_width$} {:count_width$}", "Total", total_count, name_width=max_name_width, count_width=max_count_width);
 }
 
 fn main()
